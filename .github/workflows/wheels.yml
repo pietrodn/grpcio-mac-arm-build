@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ "macOS-11" ]
-        python_build_version: [ "cp38", "cp39", "cp310" ]
+        python_build_version: [ "cp310" ]
 
     steps:
       # Used to host cibuildwheel
@@ -24,7 +24,9 @@ jobs:
         run: python -m pip install cibuildwheel==2.9.0
 
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir ./wheelhouse grpcio*.tar.gz
+        run: |
+          cd grpcio-*/
+          python -m cibuildwheel --output-dir ../wheelhouse
         env:
           CIBW_ARCHS_MACOS: "arm64"
           CIBW_TEST_SKIP: "*_arm64"

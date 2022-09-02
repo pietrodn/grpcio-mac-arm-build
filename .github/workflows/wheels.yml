@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [ "macOS-11" ]
-        python_build_version: [ "cp310" ]
+        python_build_version: [ "cp38", "cp39", "cp310", "cp311" ]
 
     steps:
       # Used to host cibuildwheel

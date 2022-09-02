@@ -15,6 +15,6 @@ Google Cloud's client libraries for Python depend on `grpcio`, and without a bin
 
 Compiling grpcio on Mac is slow, and [notoriously hard](https://github.com/grpc/grpc/issues/25082) and, in my experience, users become frustrated after the 10th attempt with some combination of environment variables, dependencies, and compilation flags (`brew install` random stuff, `LDFLAGS`, `CFLAGS`, `GRPC_PYTHON_BUILD_SYSTEM_OPENSSL`, ...). A downloadable binary wheel would enable a much more pleasant user experience.
 
-In [this issue](https://github.com/grpc/grpc/issues/29262), I have a way to cross-compile grpcio from an Intel-based CI runner, using the amazing [cibuildwheel](https://github.com/pypa/cibuildwheel) tool.
+In [this issue](https://github.com/grpc/grpc/issues/29262), I proposed a way to cross-compile grpcio from an Intel-based CI runner, using the amazing [cibuildwheel](https://github.com/pypa/cibuildwheel) tool.
 
 This repo contains another example, that uses GitHub Actions.

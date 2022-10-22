@@ -32,9 +32,11 @@ jobs:
           
           GRPCIO_LATEST_RELEASE="${{ steps.get_release.outputs.release }}"
           if [[ $GRPCIO_LATEST_RELEASE == $GRPCIO_LATEST_VERSION ]]; then
-            echo "should_build=1" >> $GITHUB_OUTPUT
-          else
+            echo "We already have a release for $GRPCIO_LATEST_RELEASE. Skipping build."
             echo "should_build=0" >> $GITHUB_OUTPUT
+          else
+            echo "Latest release $GRPCIO_LATEST_RELEASE is outdated, starting build for $GRPCIO_LATEST_VERSION"
+            echo "should_build=1" >> $GITHUB_OUTPUT
           fi
   
   build_wheels:

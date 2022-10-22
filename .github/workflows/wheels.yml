@@ -56,7 +56,7 @@ jobs:
       
       - name: Download latest grpcio stable tarball
         run: |
-          pip download --no-binary grpcio grpcio
+          pip download --no-binary grpcio grpcio==${{ needs.check_release.outputs.latest_version }}
           tar xf *.tar.gz
           
       - name: Install cibuildwheel

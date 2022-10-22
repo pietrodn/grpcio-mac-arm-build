@@ -11,6 +11,7 @@ jobs:
     name: "Check if we should start a new build job for grpcio based on latest release"
     outputs:
       should_build: ${{ steps.grpcio_version.outputs.should_build }}
+      latest_version: ${{ steps.grpcio_version.outputs.grpcio_current_version }}
     runs-on: ubuntu-latest
     steps:
       - id: get_release
@@ -80,5 +81,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          name: ${{ steps.grpcio_version.outputs.grpcio_current_version }}
+          name: ${{ needs.check_release.outputs.latest_version }}
           files: ./wheelhouse/*.whl

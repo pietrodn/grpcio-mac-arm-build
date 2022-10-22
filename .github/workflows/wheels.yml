@@ -1,8 +1,45 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '35 5 * * *'
 
 jobs:
+  check_release:
+    name: "Check if we should start a new build job for grpcio based on latest release"
+    outputs:
+      should_build: ${{ steps.grpcio_version.outputs.should_build }}
+      latest_version: ${{ steps.grpcio_version.outputs.grpcio_current_version }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: get_release
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: ${{ github.repository }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: Check latest available grpcio release
+        id: grpcio_version
+        run: |
+          GRPCIO_LATEST_VERSION=$(pip3 index versions --no-binary grpcio grpcio | grep grpcio | sed -E 's/grpcio \(([0-9.]+)\)/\1/')
+          echo "Latest grpcio version on PyPI: $GRPCIO_LATEST_VERSION"
+          echo "grpcio_current_version=$GRPCIO_LATEST_VERSION" >> $GITHUB_OUTPUT
+          
+          GRPCIO_LATEST_RELEASE="${{ steps.get_release.outputs.release }}"
+          if [[ $GRPCIO_LATEST_RELEASE == $GRPCIO_LATEST_VERSION ]]; then
+            echo "We already have a release for $GRPCIO_LATEST_RELEASE. Skipping build."
+            echo "should_build=0" >> $GITHUB_OUTPUT
+          else
+            echo "Latest release $GRPCIO_LATEST_RELEASE is outdated, starting build for $GRPCIO_LATEST_VERSION"
+            echo "should_build=1" >> $GITHUB_OUTPUT
+          fi
+  
   build_wheels:
     name: Build grpcio wheels on ${{ matrix.os }}, for Python ${{ matrix.python_build_version }}
     runs-on: ${{ matrix.os }}
@@ -11,13 +48,15 @@ jobs:
         os: [ "macOS-12" ]
         python_build_version: [ "cp38", "cp39", "cp310", "cp311" ]
 
+    needs: [check_release]
+    if: needs.check_release.outputs.should_build == '1'
     steps:
       # Used to host cibuildwheel
       - uses: actions/setup-python@v3
       
       - name: Download latest grpcio stable tarball
         run: |
-          pip download --no-binary grpcio grpcio
+          pip download --no-binary grpcio grpcio==${{ needs.check_release.outputs.latest_version }}
           tar xf *.tar.gz
           
       - name: Install cibuildwheel
@@ -38,3 +77,11 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
+          
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: "grpcio ${{ needs.check_release.outputs.latest_version }}"
+          tag_name: ${{ needs.check_release.outputs.latest_version }}
+          files: ./wheelhouse/*.whl
+          body: "Apple Silicon built binaries for the grpcio ${{ needs.check_release.outputs.latest_version }} Python library."

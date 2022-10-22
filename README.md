@@ -28,5 +28,7 @@ This repo contains another example, that uses GitHub Actions.
 
 The [grpc](https://github.com/grpc/grpc/blob/master/LICENSE) project is licensed under the Apache License 2.0, BSD 3-Clause License, and Mozilla Public License Version 2.0. You can find the updated license text [at this link](https://github.com/grpc/grpc/blob/master/LICENSE).
 
-These binaries are provided by me and not endorsed by the original authors of the libraries.
-The binary are released under the same license terms of the original source code.
+These binaries are provided by me personally and not endorsed by the original authors of the grpc library, nor the company I work for.
+The binaries are released under the same license terms of the original source code.
+
+No guarantees of any sort are provided: use this software at your own risk!

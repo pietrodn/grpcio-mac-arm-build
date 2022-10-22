@@ -22,3 +22,11 @@ Compiling grpcio on Mac is slow, and [notoriously hard](https://github.com/grpc/
 In [this issue](https://github.com/grpc/grpc/issues/29262), I proposed a way to cross-compile grpcio from an Intel-based CI runner, using the amazing [cibuildwheel](https://github.com/pypa/cibuildwheel) tool.
 
 This repo contains another example, that uses GitHub Actions.
+
+
+## Licensing
+
+The [grpc](https://github.com/grpc/grpc/blob/master/LICENSE) project is licensed under the Apache License 2.0, BSD 3-Clause License, and Mozilla Public License Version 2.0. You can find the updated license text [at this link](https://github.com/grpc/grpc/blob/master/LICENSE).
+
+These binaries are provided by me and not endorsed by the original authors of the libraries.
+The binary are released under the same license terms of the original source code.

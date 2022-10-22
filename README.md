@@ -2,7 +2,11 @@
 
 👩🏻‍💻 **GitHub Actions workflow: [.github/workflows/wheels.yml](.github/workflows/wheels.yml)**
 
-This repo shows how to build binary wheels for the Python [`grpcio`](https://github.com/grpc/grpc/tree/master/src/python/grpcio) library, for the Apple Silicon architecture.
+This repo provides daily builds of binary wheels for the Python [`grpcio`](https://github.com/grpc/grpc/tree/master/src/python/grpcio) library, for the Apple Silicon architecture.
+
+A GitHub actions workflow checks every day if there is a new `grpcio` release. If that is the case, it builds the binaries and uploads them in a new [release](https://github.com/pietrodn/grpcio-mac-arm-build/releases).
+
+📦 **[Releases](https://github.com/pietrodn/grpcio-mac-arm-build/releases)**
 
 ## Motivation
 

@@ -1,7 +1,8 @@
 name: Build
 
 on:
-  push:
+  branches:    
+    - main
   pull_request:
   schedule:
     - cron: '35 5 * * *'

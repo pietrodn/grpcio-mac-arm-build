@@ -41,7 +41,7 @@ jobs:
           fi
   
   build_wheels:
-    name: Build grpcio wheels on ${{ matrix.os }}, for Python ${{ matrix.python_build_version }}
+    name: Build ${{ matrix.package }} wheels on ${{ matrix.os }}, for Python ${{ matrix.python_build_version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

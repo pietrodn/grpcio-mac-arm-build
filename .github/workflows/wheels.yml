@@ -2,6 +2,8 @@ name: Build
 
 on:
   push:
+    branches:    
+      - main
   pull_request:
   schedule:
     - cron: '35 5 * * *'
@@ -32,7 +34,8 @@ jobs:
           echo "grpcio_current_version=$GRPCIO_LATEST_VERSION" >> $GITHUB_OUTPUT
           
           GRPCIO_LATEST_RELEASE="${{ steps.get_release.outputs.release }}"
-          if [[ $GRPCIO_LATEST_RELEASE == $GRPCIO_LATEST_VERSION ]]; then
+          #if [[ $GRPCIO_LATEST_RELEASE == $GRPCIO_LATEST_VERSION ]]; then
+          if false; then
             echo "We already have a release for $GRPCIO_LATEST_RELEASE. Skipping build."
             echo "should_build=0" >> $GITHUB_OUTPUT
           else
@@ -41,12 +44,13 @@ jobs:
           fi
   
   build_wheels:
-    name: Build grpcio wheels on ${{ matrix.os }}, for Python ${{ matrix.python_build_version }}
+    name: Build ${{ matrix.package }} wheels on ${{ matrix.os }}, for Python ${{ matrix.python_build_version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ "macOS-12" ]
         python_build_version: [ "cp38", "cp39", "cp310", "cp311" ]
+        package: [ "grpcio", "grpcio-tools" ]
 
     needs: [check_release]
     if: needs.check_release.outputs.should_build == '1'
@@ -54,9 +58,9 @@ jobs:
       # Used to host cibuildwheel
       - uses: actions/setup-python@v3
       
-      - name: Download latest grpcio stable tarball
+      - name: Download latest ${{ matrix.package }} stable tarball
         run: |
-          pip download --no-binary grpcio grpcio==${{ needs.check_release.outputs.latest_version }}
+          pip download --no-binary ${{ matrix.package }} ${{ matrix.package }}==${{ needs.check_release.outputs.latest_version }}
           tar xf *.tar.gz
           
       - name: Install cibuildwheel
@@ -64,7 +68,7 @@ jobs:
 
       - name: Build wheels
         run: |
-          cd grpcio-*/
+          cd ${{ matrix.package }}-*/
           python -m cibuildwheel --output-dir ../wheelhouse
         env:
           CIBW_ARCHS_MACOS: "arm64"
@@ -72,7 +76,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python_build_version }}-macosx_arm64"
           CIBW_BUILD_FRONTEND: pip
           CIBW_ENVIRONMENT_MACOS: "GRPC_PYTHON_BUILD_WITH_CYTHON=1"
-          CIBW_BEFORE_BUILD: "pip install -r requirements.txt"
+          CIBW_BEFORE_BUILD: "pip install Cython; if [[ -f requirements.txt ]]; then pip install -r requirements.txt; fi"
 
       - uses: actions/upload-artifact@v3
         with:

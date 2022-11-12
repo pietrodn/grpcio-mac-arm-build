@@ -88,4 +88,4 @@ jobs:
           name: "grpcio ${{ needs.check_release.outputs.latest_version }}"
           tag_name: ${{ needs.check_release.outputs.latest_version }}
           files: ./wheelhouse/*.whl
-          body: "Apple Silicon built binaries for the ${{ matrix.package }} ${{ needs.check_release.outputs.latest_version }} Python library."
+          body: "Apple Silicon built binaries for the grpcio ${{ needs.check_release.outputs.latest_version }} Python library."

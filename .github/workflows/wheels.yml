@@ -75,7 +75,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python_build_version }}-macosx_arm64"
           CIBW_BUILD_FRONTEND: pip
           CIBW_ENVIRONMENT_MACOS: "GRPC_PYTHON_BUILD_WITH_CYTHON=1"
-          CIBW_BEFORE_BUILD: "if [[ -f requirements.txt ]]; then pip install -r requirements.txt; fi"
+          CIBW_BEFORE_BUILD: "pip install Cython; if [[ -f requirements.txt ]]; then pip install -r requirements.txt; fi"
 
       - uses: actions/upload-artifact@v3
         with:

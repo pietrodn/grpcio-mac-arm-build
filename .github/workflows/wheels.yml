@@ -56,7 +56,7 @@ jobs:
       # Used to host cibuildwheel
       - uses: actions/setup-python@v3
       
-      - name: Download latest grpcio stable tarball
+      - name: Download latest ${{ matrix.package }} stable tarball
         run: |
           pip download --no-binary ${{ matrix.package }} ${{ matrix.package }}==${{ needs.check_release.outputs.latest_version }}
           tar xf *.tar.gz
@@ -74,7 +74,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python_build_version }}-macosx_arm64"
           CIBW_BUILD_FRONTEND: pip
           CIBW_ENVIRONMENT_MACOS: "GRPC_PYTHON_BUILD_WITH_CYTHON=1"
-          CIBW_BEFORE_BUILD: "pip install -r requirements.txt"
+          CIBW_BEFORE_BUILD: "if [[ -f requirements.txt ]]; then pip install -r requirements.txt; fi"
 
       - uses: actions/upload-artifact@v3
         with:

@@ -48,7 +48,7 @@ jobs:
     strategy:
       matrix:
         os: [ "macOS-12" ]
-        python_build_version: [ "cp38", "cp39", "cp310", "cp311" ]
+        python_build_version: [ "cp310" ]
         package: [ "grpcio", "grpcio-tools" ]
 
     needs: [check_release]
@@ -84,7 +84,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          name: "grpcio ${{ needs.check_release.outputs.latest_version }}"
+          name: "[BETA] ${{ matrix.package }} ${{ needs.check_release.outputs.latest_version }}"
           tag_name: ${{ needs.check_release.outputs.latest_version }}
           files: ./wheelhouse/*.whl
-          body: "Apple Silicon built binaries for the grpcio and grpcio-tools ${{ needs.check_release.outputs.latest_version }} Python library."
+          body: "Apple Silicon built binaries for the ${{ matrix.package }} ${{ needs.check_release.outputs.latest_version }} Python library."

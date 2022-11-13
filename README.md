@@ -2,7 +2,7 @@
 
 👩🏻‍💻 **GitHub Actions workflow: [.github/workflows/wheels.yml](.github/workflows/wheels.yml)**
 
-This repo provides daily builds of binary wheels for the Python [`grpcio`](https://github.com/grpc/grpc/tree/master/src/python/grpcio) library, for the Apple Silicon architecture.
+This repo provides daily builds of binary wheels for the Python [`grpcio`](https://github.com/grpc/grpc/tree/master/src/python/grpcio) and [`grpcio-tools`](https://pypi.org/project/grpcio-tools/) libraries, for the Apple Silicon architecture.
 
 A GitHub actions workflow checks every day if there is a new `grpcio` release. If that is the case, it builds the binaries and uploads them in a new [release](https://github.com/pietrodn/grpcio-mac-arm-build/releases).
 
@@ -10,7 +10,7 @@ A GitHub actions workflow checks every day if there is a new `grpcio` release. I
 
 ## Motivation
 
-Currently (version 1.48.1), `grpcio` provides compiled binary wheels only for Intel Macs, not for Apple Silicon machines.
+Currently (version 1.48.1), `grpcio` and `grpcio-tools` provides compiled binary wheels only for Intel Macs, not for Apple Silicon machines.
 * 👉 [check on PyPI](https://pypi.org/project/grpcio/#files) if the situation changed!
 
 Google Cloud's client libraries for Python depend on `grpcio`, and without a binary release of `grpcio` it becomes hard to install them on a local development environment.

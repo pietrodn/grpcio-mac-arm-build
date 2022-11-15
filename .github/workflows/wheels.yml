@@ -34,7 +34,7 @@ jobs:
           echo "grpcio_current_version=$GRPCIO_LATEST_VERSION" >> $GITHUB_OUTPUT
           
           GRPCIO_LATEST_RELEASE="${{ steps.get_release.outputs.release }}"
-          if [[ $GRPCIO_LATEST_RELEASE == $GRPCIO_LATEST_VERSION ]]; then
+          if false; then
             echo "We already have a release for $GRPCIO_LATEST_RELEASE. Skipping build."
             echo "should_build=0" >> $GITHUB_OUTPUT
           else

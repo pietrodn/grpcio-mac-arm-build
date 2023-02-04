@@ -28,6 +28,10 @@ jobs:
               }
             }' --jq '.data.repository.releases.nodes[0].tagName')"
           echo "release=\"$latestRelease\"" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
 
       - name: Set up Python
         uses: actions/setup-python@v4

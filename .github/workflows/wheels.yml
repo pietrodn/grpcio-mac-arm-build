@@ -16,10 +16,18 @@ jobs:
       latest_version: ${{ steps.grpcio_version.outputs.grpcio_current_version }}
     runs-on: ubuntu-latest
     steps:
-      - id: get_release
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          repository: ${{ github.repository }}
+      - name: "Get latest GitHub release for this repo"
+        id: get_release
+        run: |
+          latestRelease="$(gh api graphql -F owner=$OWNER -F name=$REPO -f query='
+            query($name: String!, $owner: String!) {
+              repository(owner: $owner, name: $name) {
+                releases(last: 1, orderBy: { field: CREATED_AT, direction: ASC }) {
+                  nodes { tagName }
+                }
+              }
+            }' --jq '.data.repository.releases.nodes[0].tagName')"
+          echo "release=\"$latestRelease\"" >> $GITHUB_OUTPUT
 
       - name: Set up Python
         uses: actions/setup-python@v4

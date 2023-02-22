@@ -1,5 +1,7 @@
 # `grpcio` Python binary wheels for Apple Silicon
 
+⚠️ **Update (2023-02-22): this repo is now obsolete, as Google released the official grpcio wheels for Apple Silicon in [version 1.51.3](https://pypi.org/project/grpcio/#files).** Wheels for old versions will still be available in the Releases page.
+
 👩🏻‍💻 **GitHub Actions workflow: [.github/workflows/wheels.yml](.github/workflows/wheels.yml)**
 
 This repo provides daily builds of binary wheels for the Python [`grpcio`](https://github.com/grpc/grpc/tree/master/src/python/grpcio) and [`grpcio-tools`](https://pypi.org/project/grpcio-tools/) libraries, for the Apple Silicon architecture.
